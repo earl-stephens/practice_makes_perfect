@@ -5,15 +5,27 @@ class HouseFacade
     @search_term = search_params
   end
 
+  # def total_members
+  #   results = get_json
+  #   results[:data][0][:attributes][:members].count
+  # end
+  #
+  # def member_data
+  #   results = get_json
+  #   results[:data][0][:attributes][:members].map do |individual_member|
+  #     Member.new(individual_member)
+  #   end
+  # end
+
   def total_members
     results = get_json
-    results[:data][0][:attributes][:members].count
+    results.count
   end
 
   def member_data
     results = get_json
-    results[:data][0][:attributes][:members].map do |individual_member|
-      Member.new(individual_member)
+    results.map do |individual_result|
+      Member.new(individual_result)
     end
   end
 
@@ -28,11 +40,11 @@ class HouseFacade
   # end
 
   def service
-    @_service ||= WaasService.new(@search_term)
+    @_service ||= WaasService.new
   end
 
   def get_json
-    @_get_json || = service.get_json("/api/v1/house/")
+    @_get_json ||= service.get_json("/api/v1/house/", @search_term)
   end
 
 end

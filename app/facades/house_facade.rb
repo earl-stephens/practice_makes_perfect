@@ -9,9 +9,20 @@ class HouseFacade
     conn = Faraday.new("http://westerosapi.herokuapp.com") do |f|
       f.adapter Faraday.default_adapter
     end
-    response = conn.get("/api/v1/house/#{@search_term}&api_key=#{ENV['api_key']}")
+    response = conn.get("/api/v1/house/#{@search_term}?api_key=#{ENV['api_key']}")
     results = JSON.parse(response.body, symbolize_names: true)
-    binding.pry
+    results[:data][0][:attributes][:members].count
+  end
+
+  def member_data
+    conn = Faraday.new("http://westerosapi.herokuapp.com") do |f|
+      f.adapter Faraday.default_adapter
+    end
+    response = conn.get("/api/v1/house/#{@search_term}?api_key=#{ENV['api_key']}")
+    results = JSON.parse(response.body, symbolize_names: true)
+    results[:data][0][:attributes][:members].map do |individual_member|
+      Member.new(individual_member)
+    end
   end
 
 end

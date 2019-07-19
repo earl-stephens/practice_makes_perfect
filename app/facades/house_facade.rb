@@ -19,15 +19,12 @@ class HouseFacade
 
   private
 
-  def conn
-    Faraday.new("http://westerosapi.herokuapp.com") do |f|
-      f.adapter Faraday.default_adapter
-    end
+  def service
+    @_service ||= ApiService.new(@search_term)
   end
 
   def get_json(url)
-    response = conn.get(url)
-    results = JSON.parse(response.body, symbolize_names: true)
+    @_get_json ||= service.get_json(url)
   end
 
 end

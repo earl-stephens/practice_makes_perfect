@@ -14,8 +14,11 @@ RSpec.describe 'can make an api call' do
   it 'can match an id to a house' do
     search_term = 'Greyjoy'
     service = WaasService.new(search_term)
-    results = service.get_house_id
 
-    
+    url = "/api/v1/house/5"
+
+    house_info = service.get_json(url)
+
+    expect(house_info.count).to eq(7)
   end
 end

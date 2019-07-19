@@ -31,4 +31,8 @@ class HouseFacade
     @_service ||= WaasService.new(@search_term)
   end
 
+  def get_json
+    @_get_json || = service.get_json("/api/v1/house/")
+  end
+
 end

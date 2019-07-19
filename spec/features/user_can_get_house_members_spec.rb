@@ -5,6 +5,7 @@ RSpec.describe 'a user can get info for', type: :feature do
 # As a user
 # When I visit "/"
     visit '/'
+    save_and_open_page
 # And I select "Greyjoy" from the dropdown
     fill_in :q, with: 'Greyjoy'
 # And I click on "Get Members"
